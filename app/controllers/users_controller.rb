@@ -1,10 +1,9 @@
 class UsersController < ApplicationController
- # before_action :set_user, only: [:show, :edit, :update, :destroy]
- before_action :require_login, only: [:index, :show, :edit, :update, :destroy]
+  before_action :set_user, only: [:show, :edit, :update, :destroy]
 
   # GET /users
   def index
-     current_user = User.find_by_id(session[:user_id])
+     current_user = User.find_by_email(session[:user_email])
      if current_user
         @users = User.all
       else
@@ -31,7 +30,7 @@ class UsersController < ApplicationController
     @user = User.new(user_params)
 
     if @user.save
-      session[:user_id] = @user.id
+      session[:user_email] = @user.email
       redirect_to @user, notice: 'User was successfully created.'
     else
       render :new
@@ -55,14 +54,6 @@ class UsersController < ApplicationController
 
   private
 
-    def require_login
-      current_user = User.find_by_id(session[:user_id])
-     if current_user
-        redirect_to users_url
-      else
-        redirect_to root_url
-      end
-    end
     # Use callbacks to share common setup or constraints between actions.
     def set_user
       @user = User.find(params[:id])
