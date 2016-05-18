@@ -3,7 +3,8 @@ class ChargesController < ApplicationController
 def index
 	
     if session[:user_email]         
-      	@users = User.all
+      #	@users = User.all
+      redirect_to users_path
      else
       	redirect_to root_path
     end

@@ -8,7 +8,7 @@ class SessionsController < ApplicationController
   	#	raise @user.inspect
     if user
       session[:user_email] = user.email
-      redirect_to charges_url, notice: 'Logged in!'
+      redirect_to users_url, notice: 'Logged in!'
     else
       render :new
     end
